@@ -16,6 +16,7 @@ async function fetchMoviedAPI(query, searchQuery = '') {
 }
 
 export default fetchMoviedAPI;
+
 // const fetchTrends = async () => {
 //   const responce = await axios.get(
 //     `${BASE_URL}trending/movie/day?api_key=${API_KEY}`,
