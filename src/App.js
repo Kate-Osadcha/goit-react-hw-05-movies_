@@ -1,20 +1,52 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { Suspense, lazy } from 'react';
 
-import Container from './components/Container/Container';
-import AppBar from './components/AppBar/AppBar';
+import Header from './components/Header/Header';
+import MovieCard from './components/MovieCard/MovieCard';
 
-const HomePage = lazy(() => import('./pages/HomePage/HomePage.js'));
+const HomePage = lazy(() => import('./pages/HomePage.js'));
+const MoviesPage = lazy(() => import('./pages/MoviesPage.js'));
+const MovieDetailsPage = lazy(() => import('./pages/MovieDetailsPage.js'));
+const PageNotFound = lazy(() => import('./pages/PageNotFound.js'));
 
-export default function App() {
+function App() {
   return (
-    <Container>
-      <AppBar />
-      <Suspense fallback={<div>Loading...</div>}>
-        <Routes>
-          <Route exact path="/" element={<HomePage />} />
-        </Routes>
+    <>
+      <Header />
+      <Suspense fallback={<p>Loading...</p>}>
+        <Switch>
+          <Route exact path="/">
+            <HomePage />
+          </Route>
+
+          <Route exact path="/movies">
+            <MoviesPage />
+          </Route>
+
+          <Route path="/movies/:movieId">
+            <MovieDetailsPage>
+              <MovieCard />
+            </MovieDetailsPage>
+          </Route>
+
+          <Route>
+            <PageNotFound />
+          </Route>
+        </Switch>
       </Suspense>
-    </Container>
+    </>
+    // <Container>
+    //   <AppBar />
+    //   <Suspense fallback={<div>Loading...</div>}>
+    //     <Switch>
+    //       <Route exact path="/" component={HomePage} />
+    //       <Route exact path="/movies" component={MoviesPage} />
+    //       <Route path="/movies/:movieId" component={MovieDetailsPage} />
+    //       <Route component={PageNotFound} />
+    //     </Switch>
+    //   </Suspense>
+    // </Container>
   );
 }
+
+export default App;
